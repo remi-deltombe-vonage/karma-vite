@@ -9,6 +9,6 @@
     "jsx": "preserve",
     "resolveJsonModule": true,
     "esModuleInterop": true,
-    "lib": ["esnext"]
+    "lib": ["DOM"]
   }
 }

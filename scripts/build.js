@@ -73,6 +73,7 @@ cli
           },
         },
         plugins: [
+          dts /*
           !coreOnly &&
             dts.default({
               staticImport: true,
@@ -84,6 +85,7 @@ cli
                 patchTypes(file);
               },
             }),
+            */,
         ],
       }),
     );
