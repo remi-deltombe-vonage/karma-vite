@@ -1,14 +1,14 @@
 {
   "compilerOptions": {
-    "target": "esnext",
+    "target": "es2015",
     "useDefineForClassFields": true,
-    "module": "esnext",
+    "module": "es2015",
     "moduleResolution": "node",
     "allowJs": false,
     "strict": true,
     "jsx": "preserve",
     "resolveJsonModule": true,
     "esModuleInterop": true,
-    "lib": ["DOM"]
+    "lib": ["es2015"]
   }
 }

@@ -3,9 +3,7 @@ const path = require('path');
 const { build, mergeConfig } = require('vite');
 const { cac } = require('cac');
 const rimraf = require('rimraf');
-const dts = require('vite-plugin-dts');
 const chalk = require('chalk');
-const patchTypes = require('./patchTypes');
 
 const cli = cac('vite');
 
@@ -56,10 +54,11 @@ cli
       mergeConfig(commonConfig, {
         root,
         build: {
-          target: 'node12',
+          target: 'node16',
           ...buildOptions,
           // to achieve @rollup-node-resolve plugin effect
           ssr: true,
+          formats: ['es'],
           rollupOptions: {
             input: 'lib/index.ts',
             output: {
@@ -72,21 +71,7 @@ cli
             ],
           },
         },
-        plugins: [
-          dts /*
-          !coreOnly &&
-            dts.default({
-              staticImport: true,
-              skipDiagnostics: false,
-              // The plugin will report `TS2742` error if set this field to true, but running tsc command will not report an error.
-              logDiagnostics: false,
-              afterBuild() {
-                const file = path.resolve(__dirname, '../dist/index.d.ts');
-                patchTypes(file);
-              },
-            }),
-            */,
-        ],
+        plugins: [],
       }),
     );
     if (!coreOnly) {
@@ -95,7 +80,7 @@ cli
         mergeConfig(commonConfig, {
           root,
           build: {
-            target: 'es2018',
+            target: 'es2015',
             ...buildOptions,
             lib: {
               entry: 'lib/public/viteClientMock/index.ts',
