@@ -79,7 +79,7 @@ function rewriteViteServerRestart(
   oldestServer: ViteDevServerInternal,
   log: OriginLogger,
 ) {
-  log.debug('vite server restart method was rewritten');
+  log.debug('vite3 server restart method was rewritten');
   server.restart = (forceOptimize?: boolean) => {
     if (!server._restartPromise) {
       server._forceOptimizeOnRestart = !!forceOptimize;
@@ -179,20 +179,20 @@ const viteServerFactory: DiFactory<
       log.debug(`using resolved config: \n%O\n`, config);
       return createServer(config);
     })
-    .then((vite) => {
-      viteProvider.value = vite;
+    .then((vite3) => {
+      viteProvider.value = vite3;
       const interceptViteSend = (server: ViteDevServerInternal) => {
-        log.debug(`vite server ws send method was intercepted`);
+        log.debug(`vite3 server ws send method was intercepted`);
         const send = server.ws.send.bind(server.ws);
         server.ws.send = (payload: HMRPayload) => {
           log.debug(
-            `the wss send method of vite server was called with payload.type: `,
+            `the wss send method of vite3 server was called with payload.type: `,
             payload.type,
           );
           if (
             // payload.path is '*' only after html changes, we don't need to listen for html file changes
             // and this can load to infinite loops.
-            // for example, coverage reporter will generate html files after test. vite listens to the html being generated
+            // for example, coverage reporter will generate html files after test. vite3 listens to the html being generated
             // and sends the full-reload message. if we schedule test again, coverage reporter will generate html files again...
             (payload.type === 'full-reload' && payload.path !== '*') ||
             payload.type === 'update' ||
@@ -205,15 +205,15 @@ const viteServerFactory: DiFactory<
         };
       };
       const interceptViteRestart = (server: ViteDevServerInternal) => {
-        log.debug(`vite server restart method was intercepted`);
+        log.debug(`vite3 server restart method was intercepted`);
         const restart = server.restart.bind(server);
         server.restart = async () => {
           const newServer = await restart();
           if (newServer) {
-            log.debug('vite server restarted');
+            log.debug('vite3 server restarted');
             rewriteViteServerRestart(
               newServer,
-              vite as ViteDevServerInternal,
+              vite3 as ViteDevServerInternal,
               log,
             );
             interceptViteSend(newServer);
@@ -224,13 +224,13 @@ const viteServerFactory: DiFactory<
         };
       };
       rewriteViteServerRestart(
-        vite as ViteDevServerInternal,
-        vite as ViteDevServerInternal,
+        vite3 as ViteDevServerInternal,
+        vite3 as ViteDevServerInternal,
         log,
       );
-      interceptViteSend(vite as ViteDevServerInternal);
-      interceptViteRestart(vite as ViteDevServerInternal);
-      return vite;
+      interceptViteSend(vite3 as ViteDevServerInternal);
+      interceptViteRestart(vite3 as ViteDevServerInternal);
+      return vite3;
     }) as ViteProvider;
   viteProvider.value = undefined;
 

@@ -77,7 +77,7 @@ const viteClientMiddleware = (
         const url = refererUrl.replace(urlRoot, '/');
         if (unwantedViteClientHtml.has(url)) {
           log.debug(
-            `${url} is requesting vite client which will be mock by karma-vite because the request referer do not need hmr`,
+            `${url} is requesting vite3 client which will be mock by karma-vite3 because the request referer do not need hmr`,
           );
           void vite
             .transformRequest(
@@ -97,28 +97,28 @@ const viteClientMiddleware = (
 };
 
 const middlewareFactory: DiFactory<
-  [vite: ViteDevServer | undefined, config: Config, logger: Logger],
+  [vite3: ViteDevServer | undefined, config: Config, logger: Logger],
   Connect.Server
-> = (vite, config, logger) => {
+> = (vite3, config, logger) => {
   const { urlRoot } = config;
   const log = logger.create('karma-vite:middleware');
-  if (vite === undefined) {
+  if (vite3 === undefined) {
     log.error('The config of framework field missing vite');
     throw 'The config of framework field missing vite';
   }
 
   const handler = connect();
 
-  handler.use(adjustPrefixMiddleware(urlRoot, vite.config.base, log));
-  handler.use(viteClientMiddleware(vite, urlRoot, log));
+  handler.use(adjustPrefixMiddleware(urlRoot, vite3.config.base, log));
+  handler.use(viteClientMiddleware(vite3, urlRoot, log));
   handler.use((req, res, next) => {
-    vite.middlewares(req, res, next);
+    vite3.middlewares(req, res, next);
   });
   handler.use(restorePrefixMiddleware(log));
 
   return handler;
 };
 
-middlewareFactory.$inject = ['vite.value', 'config', 'logger'];
+middlewareFactory.$inject = ['vite3.value', 'config', 'logger'];
 
 export default middlewareFactory;

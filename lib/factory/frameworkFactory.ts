@@ -8,13 +8,15 @@ const frameworkFactory: DiFactory<
 > = (vite, config) => {
   if (config.vite?.autoInit !== false) {
     config.set({
-      beforeMiddleware: (config.beforeMiddleware || []).concat(['vite-before']),
-      middleware: (config.middleware || []).concat(['vite']),
+      beforeMiddleware: (config.beforeMiddleware || []).concat([
+        'vite3-before',
+      ]),
+      middleware: (config.middleware || []).concat(['vite3']),
     });
   }
   return vite;
 };
 
-frameworkFactory.$inject = ['vite', 'config'];
+frameworkFactory.$inject = ['vite3', 'config'];
 
 export default frameworkFactory;

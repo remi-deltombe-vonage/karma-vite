@@ -1,5 +1,5 @@
 {
-  "name": "@vonage/karma-vite",
+  "name": "karma-vite3",
   "version": "1.0.2",
   "description": "A karma plugin. Transform es module by using vite.",
   "main": "dist/index.js",
@@ -30,7 +30,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/credred/karma-vite.git"
+    "url": "git+https://github.com/remi-deltombe-vonage/karma-vite.git"
   },
   "keywords": [
     "karma-plugin",
@@ -40,9 +40,9 @@
   "author": "credred",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/credred/karma-vite/issues"
+    "url": "https://github.com/remi-deltombe-vonage/karma-vite/issues"
   },
-  "homepage": "https://github.com/credred/karma-vite#readme",
+  "homepage": "https://github.com/remi-deltombe-vonage/karma-vite#readme",
   "dependencies": {
     "connect": "^3.7.0",
     "vite-plugin-istanbul": "^3.0.1"

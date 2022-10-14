@@ -49,6 +49,6 @@ const beforeMiddlewareFactory: DiFactory<
   };
 };
 
-beforeMiddlewareFactory.$inject = ['vite.value', 'config', 'logger'];
+beforeMiddlewareFactory.$inject = ['vite3.value', 'config', 'logger'];
 
 export default beforeMiddlewareFactory;
